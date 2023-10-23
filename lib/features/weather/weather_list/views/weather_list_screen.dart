@@ -7,13 +7,14 @@ class WeatherListScreen extends StatelessWidget {
   const WeatherListScreen({super.key});
 
   @override
-  Widget build(BuildContext context)=> Container(
-    height: double.infinity,
-    child: ContainerWithFrostedGlass(
-        child: Column(
+  Widget build(BuildContext context) => Container(
+        height: double.infinity,
+        child: ContainerWithFrostedGlass(
+            child: Column(
           mainAxisSize: MainAxisSize.max,
-          children: [],)),
-  );
+          children: [],
+        )),
+      );
 
   static Future<void> open(BuildContext context) async =>
       Navigator.pushNamed(context, route);
