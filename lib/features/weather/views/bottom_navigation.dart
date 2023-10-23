@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:weather_app/features/weather/weather_detail/weather_detail.dart';
-
 import '../../../core/style/custom_colors.dart';
+import '../weather.dart';
 
 class BottomNavigation extends StatelessWidget {
   const BottomNavigation({super.key});

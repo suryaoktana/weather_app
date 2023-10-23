@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/core/widgets/custom_scaffold.dart';
+import 'package:weather_app/features/weather/weather_list/views/views.dart';
 import '../../../../core/widgets/app_image.dart';
 import '../weather_detail/weather_detail.dart';
 
@@ -12,7 +13,7 @@ class WeatherScreen extends StatelessWidget {
         image: getJpgDecorationImage(
             imageAsset: 'starry_night', fit: BoxFit.cover)),
     child: CustomScaffold(
-      body: const WeatherDetailScreen(),
+      body: const WeatherListScreen(),
       bottomNavigationBar: const BottomNavigation(),
     ),
   );
