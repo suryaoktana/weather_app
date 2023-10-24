@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_app/core/widgets/shimmer_widget.dart';
 import '../../../../core/widgets/custom_text.dart';
 import '../../weather.dart';
-import '../../weather_detail/weather_detail.dart';
+import '../weather_detail.dart';
 
 class WeatherHourlyForecasts extends StatelessWidget {
   const WeatherHourlyForecasts({super.key});
@@ -26,7 +26,7 @@ class WeatherHourlyForecasts extends StatelessWidget {
             ),
           ),
           Container(
-            height: 220,
+            height: 230,
             margin: const EdgeInsets.only(top: 4),
             child: ContainerWithFrostedGlass(
               childPadding: EdgeInsets.zero,

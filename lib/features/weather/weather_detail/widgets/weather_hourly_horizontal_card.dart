@@ -23,8 +23,10 @@ class WeatherHourlyHorizontalCard extends StatelessWidget {
             final isActive = state.selectedWeather == weatherModel;
             return Container(
               decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                      colors: [CustomColors.purple, CustomColors.lightPurple]),
+                  gradient: const LinearGradient(colors: [
+                    CustomColors.purpleSecondary,
+                    CustomColors.lightPurpleSecondary
+                  ]),
                   boxShadow: [
                     BoxShadow(
                       color: CustomColors.white.withOpacity(isActive ? 1 : 0.4),
@@ -42,11 +44,15 @@ class WeatherHourlyHorizontalCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CustomText(
+                    'Tue',
+                    style: CustomTextStyle.body2SemiBold,
+                  ),
+                  CustomText(
                     weatherModel.time,
                     style: CustomTextStyle.body1SemiBold,
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
+                    padding: const EdgeInsets.only(bottom: 8.0, top: 2),
                     child: getPngImage(weatherModel.weatherType.imageAsset,
                         height: 40, width: 40),
                   ),

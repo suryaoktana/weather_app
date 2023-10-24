@@ -1,1 +1,3 @@
 export 'weather_hourly_horizontal_card.dart';
+export 'weather_hourly_forecasts.dart';
+export 'weather_info.dart';

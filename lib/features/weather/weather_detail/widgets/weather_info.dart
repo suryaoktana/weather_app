@@ -12,7 +12,7 @@ class WeatherInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(top: 80),
+        padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 8),
         child: BlocBuilder<WeatherBloc, WeatherState>(
             buildWhen: (previous, current) =>
                 previous.selectedWeather != current.selectedWeather,
@@ -32,14 +32,14 @@ class WeatherInfo extends StatelessWidget {
             height: 40,
           ),
           SizedBox(
-            height: 6,
+            height: 12,
           ),
           ShimmerWidget(
             width: 140,
             height: 80,
           ),
           SizedBox(
-            height: 6,
+            height: 12,
           ),
           Row(
             mainAxisSize: MainAxisSize.min,
@@ -56,6 +56,13 @@ class WeatherInfo extends StatelessWidget {
                 height: 50,
               ),
             ],
+          ),
+          SizedBox(
+            height: 8,
+          ),
+          ShimmerWidget(
+            width: 160,
+            height: 30,
           ),
         ],
       );
@@ -109,11 +116,18 @@ class WeatherInfo extends StatelessWidget {
                 ),
               ),
               const SizedBox(
-                width: 2,
+                width: 6,
               ),
               getPngImage(weatherModel.weatherType.imageAsset,
                   height: 50, width: 50),
             ],
+          ),
+          const SizedBox(
+            height: 8,
+          ),
+          CustomText(
+            'Tuesday, July 19, 2022',
+            style: CustomTextStyle.lightTypographyBody1SemiBold,
           ),
         ],
       );

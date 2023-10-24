@@ -27,5 +27,7 @@ class CustomColors {
 
   ///actually been used
   static const purple = Color(0xFF373259);
+  static const purpleSecondary = Color(0xFF382B87);
   static const lightPurple = Color(0xFF524572);
+  static const lightPurpleSecondary = Color(0xFF5737B1);
 }

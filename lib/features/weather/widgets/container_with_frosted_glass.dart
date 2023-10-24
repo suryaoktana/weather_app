@@ -22,7 +22,7 @@ class ContainerWithFrostedGlass extends StatelessWidget {
             width: double.infinity,
             height: 12,
             decoration: BoxDecoration(
-              color: Colors.grey.withOpacity(0.4),
+              color: Colors.grey.withOpacity(0.5),
               gradient: const LinearGradient(stops: [
                 0.2,
                 0.8,

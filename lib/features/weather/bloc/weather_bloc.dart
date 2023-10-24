@@ -15,7 +15,8 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
     on<WeatherEvent>((events, emit) async {
       await events.map(
           fetch: (event) async => await _onFetch(event, emit),
-          select: (event) async => await _onSelectWeather(event, emit));
+          select: (event) async => await _onSelectWeather(event, emit),
+          tabChanged: (event) async => await _onTabChanged(event, emit));
     });
   }
 
@@ -30,6 +31,13 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   }
 
   _onSelectWeather(_SelectWeatherEvent event, Emitter<WeatherState> emit) {
+    if (event.isFromPageTwo) {
+      emit(state.copyWith(tabSelected: 1));
+    }
+    emit(state.copyWith(selectedWeather: event.weatherModel, tabSelected: 0));
+  }
+
+  _onTabChanged(_TabChangedWeatherEvent event, Emitter<WeatherState> emit) {
     emit(state.copyWith(
       selectedWeather: event.weatherModel,
     ));

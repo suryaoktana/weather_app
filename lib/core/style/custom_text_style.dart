@@ -17,7 +17,7 @@ class CustomTextStyle {
   }
 
   static TextStyle get h2 {
-    double fontSize = 40;
+    double fontSize = 60;
     return _textStyle.copyWith(
         fontSize: fontSize,
         letterSpacing: 1.5,
@@ -30,7 +30,7 @@ class CustomTextStyle {
     return _textStyle.copyWith(
         fontSize: fontSize,
         letterSpacing: 0,
-        height: _fontHeight(fontSize: fontSize, figmaLineHeight: 20),
+        height: _fontHeight(fontSize: fontSize, figmaLineHeight: 32),
         fontWeight: CustomFontWeight.medium.value);
   }
 

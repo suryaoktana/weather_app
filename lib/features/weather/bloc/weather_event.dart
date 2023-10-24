@@ -7,6 +7,11 @@ class WeatherEvent with _$WeatherEvent {
   }) = _FetchWeatherEvent;
 
   const factory WeatherEvent.select({
+    @Default(false) bool isFromPageTwo,
     required WeatherModel weatherModel,
   }) = _SelectWeatherEvent;
+
+  const factory WeatherEvent.tabChanged({
+    required WeatherModel weatherModel,
+  }) = _TabChangedWeatherEvent;
 }
