@@ -18,9 +18,12 @@ class WeatherHourlyForecasts extends StatelessWidget {
                   topLeft: Radius.circular(48), topRight: Radius.circular(48)),
               child: Align(
                 alignment: Alignment.bottomLeft,
-                child: CustomText(
-                  'Hourly Forecast',
-                  style: CustomTextStyle.body2,
+                child: Padding(
+                  padding: const EdgeInsets.only(bottom: 4.0),
+                  child: CustomText(
+                    'Hourly Forecast',
+                    style: CustomTextStyle.body2,
+                  ),
                 ),
               ),
             ),

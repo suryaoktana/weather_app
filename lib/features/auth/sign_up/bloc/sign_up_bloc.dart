@@ -1,5 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../auth.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'sign_up_event.dart';
@@ -9,21 +8,26 @@ part 'sign_up_state.dart';
 part 'sign_up_bloc.freezed.dart';
 
 class SignUpBloc extends Bloc<SignUpEvent, SignUpState> {
-  SignUpBloc({required AuthRepository authRepository})
-      : _authRepository = authRepository,
-        super(const SignUpState()) {
+  SignUpBloc() : super(const SignUpState()) {
     on<SignUpEvent>((events, emit) async {
       await events.map(
-        fetch: (event) async => await _onFetch(event, emit),
+        emailChanged: (event) async => await _onEmailChanged(event, emit),
+        passwordChanged: (event) async => await _onPasswordChanged(event, emit),
       );
     });
   }
 
-  final AuthRepository _authRepository;
-
-  _onFetch(SignUpEvent event, Emitter<SignUpState> emit) async {
+  _onEmailChanged(
+      _EmailChangedSignUpEvent event, Emitter<SignUpState> emit) async {
     emit(state.copyWith(
-      statePlaceholder: 'placeholder',
+      email: event.email,
+    ));
+  }
+
+  _onPasswordChanged(
+      _PasswordChangedSignUpEvent event, Emitter<SignUpState> emit) async {
+    emit(state.copyWith(
+      password: event.password,
     ));
   }
 }

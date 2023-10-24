@@ -1,6 +1,16 @@
-import '../../auth.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SignInPasswordTextField extends PasswordTextField {
-  SignInPasswordTextField({super.key})
-      : super(onChanged: (_) {}, errorText: '');
+import '../../auth.dart';
+import '../sign_in.dart';
+
+class SignInPasswordTextField extends StatelessWidget {
+  const SignInPasswordTextField({super.key});
+
+  @override
+  Widget build(BuildContext context) => PasswordTextField(
+      onChanged: (value) => context
+          .read<SignInBloc>()
+          .add(SignInEvent.passwordChanged(password: value)),
+      errorText: '');
 }
