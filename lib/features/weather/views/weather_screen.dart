@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/models/base_response.dart';
+import '../../../core/utils/snackbar.dart';
 import '../../../core/widgets/custom_scaffold.dart';
 import '../../auth/bloc/auth_bloc.dart';
 import '../weather_list/views/views.dart';
@@ -38,7 +39,11 @@ class _WeatherScreenState extends State<WeatherScreen>
 
   @override
   Widget build(BuildContext context) => BackgroundContainer(
-        child: BlocBuilder<AuthBloc, AuthState>(
+        child: BlocConsumer<AuthBloc, AuthState>(
+          listenWhen: (_, current) =>
+              current.signOutState.state == ResponseState.error,
+          listener: (context, state) =>
+              showErrorPopUp(context, state.signOutState.message),
           buildWhen: (previous, current) =>
               previous.signOutState != current.signOutState,
           builder: (context, state) {

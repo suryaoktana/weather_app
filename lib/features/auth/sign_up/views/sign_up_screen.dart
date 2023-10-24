@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/models/base_response.dart';
+import '../../../../core/utils/snackbar.dart';
 import '../../../../core/widgets/custom_scaffold.dart';
 import '../../auth.dart';
 import '../../sign_in/sign_in.dart';
@@ -23,7 +24,11 @@ class SignUpScreen extends StatelessWidget {
             body: BlocProvider(
               create: (_) => SignUpBloc(),
               child: Center(
-                child: BlocBuilder<AuthBloc, AuthState>(
+                child: BlocConsumer<AuthBloc, AuthState>(
+                  listenWhen: (_, current) =>
+                      current.signUpState.state == ResponseState.error,
+                  listener: (context, state) =>
+                      showErrorPopUp(context, state.signUpState.message),
                   buildWhen: (previous, current) =>
                       previous.signUpState.state != current.signUpState.state,
                   builder: (context, state) {

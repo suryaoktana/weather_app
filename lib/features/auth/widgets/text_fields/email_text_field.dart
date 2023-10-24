@@ -5,9 +5,11 @@ import 'auth_text_field_style.dart';
 
 class EmailTextField extends StatelessWidget {
   final String errorText;
+  final String initialValue;
   final Function(String)? onChanged;
 
-  const EmailTextField({this.onChanged, this.errorText = '', super.key});
+  const EmailTextField(
+      {this.onChanged, this.initialValue = '', this.errorText = '', super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,6 +17,7 @@ class EmailTextField extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TextFormField(
+            initialValue: initialValue,
             cursorColor: CustomColors.white,
             onChanged: onChanged,
             textInputAction: TextInputAction.next,

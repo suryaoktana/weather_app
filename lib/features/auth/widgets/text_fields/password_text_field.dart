@@ -7,6 +7,7 @@ import 'auth_text_field_style.dart';
 class PasswordTextField extends StatefulWidget {
   final String hintText;
   final String errorText;
+  final String initialValue;
   final Function(String)? onChanged;
 
   const PasswordTextField({
@@ -14,6 +15,7 @@ class PasswordTextField extends StatefulWidget {
     this.onChanged,
     this.hintText = '',
     this.errorText = '',
+    this.initialValue = '',
   }) : super(key: key);
 
   @override
@@ -24,6 +26,12 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
   final TextEditingController controller = TextEditingController();
   late final TextEditingController confirmationController;
   bool obscureText = true;
+
+  @override
+  void initState() {
+    controller.text = widget.initialValue;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) => Theme(

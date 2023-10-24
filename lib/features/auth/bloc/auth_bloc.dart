@@ -12,16 +12,20 @@ part 'auth_bloc.freezed.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc() : super(const AuthState()) {
-    on<AuthEvent>((events, emit) async {
-      await events.map(
-        signInSubmitted: (event) async => await _onSignInSubmitted(event, emit),
-        signUpSubmitted: (event) async => await _onSignUpSubmitted(event, emit),
-        signOutSubmitted: (event) async =>
-            await _onSignOutSubmitted(event, emit),
-        listenFirebaseAuthStateChanges: (event) async =>
-            await _onListenFirebaseAuthStateChanges(event, emit),
-      );
-    });
+    on<AuthEvent>(
+      (events, emit) async {
+        await events.map(
+          signInSubmitted: (event) async =>
+              await _onSignInSubmitted(event, emit),
+          signUpSubmitted: (event) async =>
+              await _onSignUpSubmitted(event, emit),
+          signOutSubmitted: (event) async =>
+              await _onSignOutSubmitted(event, emit),
+          listenFirebaseAuthStateChanges: (event) async =>
+              await _onListenFirebaseAuthStateChanges(event, emit),
+        );
+      },
+    );
   }
 
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
