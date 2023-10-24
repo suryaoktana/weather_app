@@ -10,4 +10,7 @@ class WeatherEvent with _$WeatherEvent {
     @Default(false) bool isFromPageTwo,
     required WeatherForecastItemModel weatherModel,
   }) = _SelectWeatherEvent;
+
+  const factory WeatherEvent.initiateLocationServices() =
+      _InitiateLocationServicesWeatherEvent;
 }

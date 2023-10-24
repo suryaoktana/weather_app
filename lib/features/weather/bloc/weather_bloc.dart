@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import '../../../core/const/weather_api_key.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart';
 import '../../../core/models/base_response.dart';
 import '../weather.dart';
 
@@ -18,6 +19,8 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
       await events.map(
         fetch: (event) async => await _onFetch(event, emit),
         select: (event) async => await _onSelectWeather(event, emit),
+        initiateLocationServices: (event) async =>
+            await _onInitiateLocationServices(event, emit),
       );
     });
   }
@@ -25,9 +28,23 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   final WeatherRepository _weatherRepository;
 
   _onFetch(_FetchWeatherEvent event, Emitter<WeatherState> emit) async {
+    ///get user current location
+    final Position position = await _getCurrentPosition;
+    Placemark? placeMark = await getPlaceMark(position);
+
+    if (placeMark != null) {
+      ///set locationName based on most accurate location available
+      emit(state.copyWith(
+          locationName: placeMark.locality ??
+              placeMark.administrativeArea ??
+              placeMark.country ??
+              ''));
+    }
+
     var response = await _weatherRepository.getWeatherForecasts(
-        const WeatherForecastRequestModel(
-            lat: '0', lon: '0', appid: weatherApiKey));
+        WeatherForecastRequestModel(
+            lat: position.latitude.toString(),
+            lon: position.longitude.toString()));
 
     if (response.state == ResponseState.success) {
       emit(state.copyWith(
@@ -41,10 +58,57 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
     }
   }
 
+  Future<Placemark?> getPlaceMark(Position position) async {
+    List<Placemark> placeMarks =
+        await placemarkFromCoordinates(position.latitude, position.longitude);
+    if (placeMarks.isNotEmpty) {
+      return placeMarks[0];
+    } else {
+      return null;
+    }
+  }
+
+  Future<Position> get _getCurrentPosition async =>
+      await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
+
   _onSelectWeather(_SelectWeatherEvent event, Emitter<WeatherState> emit) {
     if (event.isFromPageTwo) {
       emit(state.copyWith(tabSelected: 1));
     }
     emit(state.copyWith(selectedWeather: event.weatherModel, tabSelected: 0));
+  }
+
+  _onInitiateLocationServices(_InitiateLocationServicesWeatherEvent event,
+      Emitter<WeatherState> emit) async {
+    late LocationPermission permission;
+
+    final bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      emit(state.copyWith(
+          isLocationServiceEnabledState: BaseResponse.error(
+              message:
+                  'Location services are disabled. Please enable the services')));
+    }
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        emit(state.copyWith(
+            isLocationServiceEnabledState: BaseResponse.error(
+                message: 'Location permissions are denied')));
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      emit(state.copyWith(
+          isLocationServiceEnabledState: BaseResponse.error(
+              message:
+                  'Location permissions are permanently denied, we cannot request permissions.')));
+    }
+    if ((permission == LocationPermission.always ||
+            permission == LocationPermission.whileInUse) &&
+        serviceEnabled) {
+      add(const WeatherEvent.fetch());
+    }
   }
 }

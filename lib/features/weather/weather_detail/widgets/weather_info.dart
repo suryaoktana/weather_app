@@ -16,15 +16,18 @@ class WeatherInfo extends StatelessWidget {
   Widget build(BuildContext context) => Padding(
         padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 8.5),
         child: BlocBuilder<WeatherBloc, WeatherState>(
-            buildWhen: (previous, current) =>
-                previous.selectedWeather != current.selectedWeather,
-            builder: (context, state) {
-              if (state.selectedWeather != null) {
-                return _contentInfo(state.selectedWeather!);
-              } else {
-                return _loadingShimmer;
-              }
-            }),
+          buildWhen: (previous, current) =>
+              previous.selectedWeather != current.selectedWeather,
+          builder: (context, state) {
+            if (state.selectedWeather != null) {
+              return _contentInfo(
+                  weather: state.selectedWeather!,
+                  locationName: state.locationName);
+            } else {
+              return _loadingShimmer;
+            }
+          },
+        ),
       );
 
   Widget get _loadingShimmer => const Column(
@@ -69,10 +72,13 @@ class WeatherInfo extends StatelessWidget {
         ],
       );
 
-  Widget _contentInfo(WeatherForecastItemModel weather) => Column(
+  Widget _contentInfo(
+          {required WeatherForecastItemModel weather,
+          required String locationName}) =>
+      Column(
         children: [
           CustomText(
-            'Ungaran',
+            locationName,
             style: CustomTextStyle.h3,
           ),
           const SizedBox(

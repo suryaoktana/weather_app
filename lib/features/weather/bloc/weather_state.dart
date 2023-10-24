@@ -7,5 +7,7 @@ class WeatherState with _$WeatherState {
     BaseResponse<List<WeatherForecastItemModel>> weathers,
     WeatherForecastItemModel? selectedWeather,
     @Default(0) int tabSelected,
+    @Default(BaseResponse()) BaseResponse<bool> isLocationServiceEnabledState,
+    @Default('') String locationName,
   }) = _WeatherState;
 }

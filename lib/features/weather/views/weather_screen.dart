@@ -53,7 +53,7 @@ class _WeatherScreenState extends State<WeatherScreen>
               return BlocProvider(
                 create: (BuildContext context) =>
                     WeatherBloc(weatherRepository: WeatherRepository())
-                      ..add(const WeatherEvent.fetch()),
+                      ..add(const WeatherEvent.initiateLocationServices()),
                 child: MultiBlocListener(
                   listeners: [
                     BlocListener<WeatherBloc, WeatherState>(
