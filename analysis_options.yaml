@@ -10,3 +10,10 @@ linter:
     discarded_futures: true
     avoid_final_parameters: true
     avoid_init_to_null: true
+
+analyzer:
+  exclude:
+    - "**/*.g.dart"
+    - "**/*.freezed.dart"
+  errors:
+    invalid_annotation_target: ignore
