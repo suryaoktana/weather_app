@@ -8,10 +8,6 @@ class WeatherEvent with _$WeatherEvent {
 
   const factory WeatherEvent.select({
     @Default(false) bool isFromPageTwo,
-    required WeatherModel weatherModel,
+    required WeatherForecastItemModel weatherModel,
   }) = _SelectWeatherEvent;
-
-  const factory WeatherEvent.tabChanged({
-    required WeatherModel weatherModel,
-  }) = _TabChangedWeatherEvent;
 }

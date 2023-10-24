@@ -9,6 +9,7 @@ class WeatherForecastRequestModel with _$WeatherForecastRequestModel {
     required String lat,
     required String lon,
     required String appid,
+    @Default('metric') String units,
   }) = _WeatherForecastRequestModel;
 
   factory WeatherForecastRequestModel.fromJson(Map<String, Object?> json) =>

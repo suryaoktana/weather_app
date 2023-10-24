@@ -1,26 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/const/base_url.dart';
 import '../../../../core/style/custom_colors.dart';
+import '../../../../core/utils/date_utils.dart';
 import '../../../../core/widgets/app_image.dart';
 import '../../../../core/widgets/custom_text.dart';
 import '../../weather_detail/weather_detail.dart';
 
 class WeatherHourlyHorizontalCard extends StatelessWidget {
-  final WeatherModel weatherModel;
+  final WeatherForecastItemModel weather;
 
-  const WeatherHourlyHorizontalCard({required this.weatherModel, super.key});
+  const WeatherHourlyHorizontalCard({required this.weather, super.key});
 
   @override
   Widget build(BuildContext context) => InkWell(
         onTap: () => context
             .read<WeatherBloc>()
-            .add(WeatherEvent.select(weatherModel: weatherModel)),
+            .add(WeatherEvent.select(weatherModel: weather)),
         child: BlocBuilder<WeatherBloc, WeatherState>(
           buildWhen: (previous, current) =>
               previous.selectedWeather != current.selectedWeather,
           builder: (context, state) {
-            final isActive = state.selectedWeather == weatherModel;
+            final isActive = state.selectedWeather == weather;
             return Container(
               decoration: BoxDecoration(
                   gradient: const LinearGradient(colors: [
@@ -44,20 +46,26 @@ class WeatherHourlyHorizontalCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CustomText(
-                    'Tue',
+                    formatDateTimeToDay(weather.dtTxt),
                     style: CustomTextStyle.body2SemiBold,
                   ),
+                  const SizedBox(
+                    height: 4,
+                  ),
                   CustomText(
-                    weatherModel.time,
+                    formatDateTimeToHourMinutes(weather.dtTxt),
                     style: CustomTextStyle.body1SemiBold,
                   ),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 8.0, top: 2),
-                    child: getPngImage(weatherModel.weatherType.imageAsset,
-                        height: 40, width: 40),
+                    child: getCachedNetworkImage(
+                        imageUrl:
+                            openWeatherImageBaseUrl(weather.weather[0].icon),
+                        height: 60,
+                        width: 60),
                   ),
                   CustomText(
-                    '${weatherModel.temperature}\u00B0',
+                    '${weather.main.temp.ceil()}\u00B0c',
                     style: CustomTextStyle.h6,
                   ),
                 ],

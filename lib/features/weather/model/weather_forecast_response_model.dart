@@ -20,9 +20,10 @@ class WeatherForecastResponseModel with _$WeatherForecastResponseModel {
 @freezed
 class WeatherForecastItemModel with _$WeatherForecastItemModel {
   const factory WeatherForecastItemModel({
-    required String dt,
+    required int dt,
     required MainModel main,
     required List<WeatherModel> weather,
+    @JsonKey(name: 'dt_txt') required String dtTxt,
   }) = _WeatherForecastItemModel;
 
   factory WeatherForecastItemModel.fromJson(Map<String, Object?> json) =>
@@ -32,8 +33,10 @@ class WeatherForecastItemModel with _$WeatherForecastItemModel {
 @freezed
 class MainModel with _$MainModel {
   const factory MainModel({
-    required int temp,
-    @JsonKey(name: 'feels_like') required int feelsLike,
+    required double temp,
+    @JsonKey(name: 'feels_like') required double feelsLike,
+    @JsonKey(name: 'temp_max') required double tempMax,
+    @JsonKey(name: 'temp_min') required double tempMin,
   }) = _MainModel;
 
   factory MainModel.fromJson(Map<String, Object?> json) =>

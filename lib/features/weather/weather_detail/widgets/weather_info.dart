@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/const/base_url.dart';
 import '../../../../core/style/custom_colors.dart';
+import '../../../../core/utils/date_utils.dart';
 import '../../../../core/widgets/app_image.dart';
 import '../../../../core/widgets/custom_text.dart';
 import '../../../../core/widgets/shimmer_widget.dart';
@@ -12,7 +14,7 @@ class WeatherInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 8),
+        padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 8.5),
         child: BlocBuilder<WeatherBloc, WeatherState>(
             buildWhen: (previous, current) =>
                 previous.selectedWeather != current.selectedWeather,
@@ -67,67 +69,74 @@ class WeatherInfo extends StatelessWidget {
         ],
       );
 
-  Widget _contentInfo(WeatherModel weatherModel) => Column(
+  Widget _contentInfo(WeatherForecastItemModel weather) => Column(
         children: [
           CustomText(
             'Ungaran',
             style: CustomTextStyle.h3,
           ),
+          const SizedBox(
+            height: 12,
+          ),
           CustomText(
-            '${weatherModel.temperature}\u00B0',
+            formatDateTimeAsString(weather.dtTxt,
+                dateFormat: 'EEEE, MMMM dd, yyyy'),
+            style: CustomTextStyle.lightTypographyBody1SemiBold,
+          ),
+          const SizedBox(
+            height: 2,
+          ),
+          CustomText(
+            '${weather.main.temp.ceil()}\u00B0',
             style: CustomTextStyle.h1,
           ),
           const SizedBox(
             height: 4,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Flexible(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CustomText(
-                      weatherModel.weatherType.name,
-                      style: CustomTextStyle.h7
-                          .copyWith(color: CustomColors.white.withOpacity(0.5)),
-                    ),
-                    const SizedBox(
-                      height: 2,
-                    ),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        CustomText(
-                          'H:${weatherModel.temperature}\u00B0',
-                          style: CustomTextStyle.body1SemiBold,
-                        ),
-                        const SizedBox(
-                          width: 8,
-                        ),
-                        CustomText(
-                          'L:${weatherModel.temperature}\u00B0',
-                          style: CustomTextStyle.body1SemiBold,
-                        ),
-                      ],
-                    ),
-                  ],
+          Transform.translate(
+            offset: const Offset(0, -30),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Flexible(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomText(
+                        weather.weather[0].main,
+                        style: CustomTextStyle.h7.copyWith(
+                            color: CustomColors.white.withOpacity(0.5)),
+                      ),
+                      const SizedBox(
+                        height: 2,
+                      ),
+                      Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CustomText(
+                            'H:${weather.main.tempMax.ceil()}\u00B0',
+                            style: CustomTextStyle.body1SemiBold,
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          CustomText(
+                            'L:${weather.main.tempMin.ceil()}\u00B0',
+                            style: CustomTextStyle.body1SemiBold,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(
-                width: 6,
-              ),
-              getPngImage(weatherModel.weatherType.imageAsset,
-                  height: 50, width: 50),
-            ],
-          ),
-          const SizedBox(
-            height: 8,
-          ),
-          CustomText(
-            'Tuesday, July 19, 2022',
-            style: CustomTextStyle.lightTypographyBody1SemiBold,
+                getCachedNetworkImage(
+                  imageUrl: openWeatherImageBaseUrl(weather.weather[0].icon),
+                  height: 100,
+                  width: 100,
+                ),
+              ],
+            ),
           ),
         ],
       );

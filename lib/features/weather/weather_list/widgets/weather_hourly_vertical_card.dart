@@ -1,25 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/const/base_url.dart';
 import '../../../../core/style/custom_colors.dart';
 import '../../../../core/widgets/app_image.dart';
 import '../../../../core/widgets/custom_text.dart';
 import '../../weather_detail/weather_detail.dart';
 
 class WeatherHourlyVerticalCard extends StatelessWidget {
-  final WeatherModel weatherModel;
+  final WeatherForecastItemModel weather;
 
-  const WeatherHourlyVerticalCard({required this.weatherModel, super.key});
+  const WeatherHourlyVerticalCard({required this.weather, super.key});
 
   @override
   Widget build(BuildContext context) => InkWell(
-        onTap: () => context.read<WeatherBloc>().add(WeatherEvent.select(
-            weatherModel: weatherModel, isFromPageTwo: true)),
+        onTap: () => context.read<WeatherBloc>().add(
+            WeatherEvent.select(weatherModel: weather, isFromPageTwo: true)),
         child: BlocBuilder<WeatherBloc, WeatherState>(
           buildWhen: (previous, current) =>
               previous.selectedWeather != current.selectedWeather,
           builder: (context, state) {
-            final isActive = state.selectedWeather == weatherModel;
+            final isActive = state.selectedWeather == weather;
             return Container(
               decoration: BoxDecoration(
                   gradient: const LinearGradient(colors: [
@@ -45,11 +46,14 @@ class WeatherHourlyVerticalCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       CustomText(
-                        '${weatherModel.temperature}\u00B0',
+                        '${weather.main.temp}\u00B0',
                         style: CustomTextStyle.h2,
                       ),
-                      getPngImage(weatherModel.weatherType.imageAsset,
-                          height: 80, width: 80)
+                      getCachedNetworkImage(
+                          imageUrl:
+                              openWeatherImageBaseUrl(weather.weather[0].icon),
+                          height: 80,
+                          width: 80),
                     ],
                   ),
                   Row(
@@ -62,7 +66,7 @@ class WeatherHourlyVerticalCard extends StatelessWidget {
                             Row(
                               children: [
                                 CustomText(
-                                  'H:${weatherModel.temperature}\u00B0',
+                                  'H:${weather.main.tempMax}\u00B0',
                                   style: CustomTextStyle.body2.copyWith(
                                       color:
                                           CustomColors.white.withOpacity(0.5)),
@@ -71,7 +75,7 @@ class WeatherHourlyVerticalCard extends StatelessWidget {
                                   width: 8,
                                 ),
                                 CustomText(
-                                  'L:${weatherModel.temperature}\u00B0',
+                                  'L:${weather.main.tempMin}\u00B0',
                                   style: CustomTextStyle.body2.copyWith(
                                       color:
                                           CustomColors.white.withOpacity(0.5)),
@@ -86,7 +90,7 @@ class WeatherHourlyVerticalCard extends StatelessWidget {
                         ),
                       ),
                       CustomText(
-                        weatherModel.weatherType.name,
+                        weather.weather[0].main,
                         style: CustomTextStyle.body1
                             .copyWith(color: CustomColors.white),
                       ),

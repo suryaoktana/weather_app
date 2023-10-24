@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/models/base_response.dart';
 import '../../../../core/widgets/shimmer_widget.dart';
 import '../../../../core/widgets/custom_text.dart';
 import '../../weather.dart';
@@ -29,16 +30,16 @@ class WeatherHourlyForecasts extends StatelessWidget {
             ),
           ),
           Container(
-            height: 230,
+            height: 240,
             margin: const EdgeInsets.only(top: 4),
             child: ContainerWithFrostedGlass(
               childPadding: EdgeInsets.zero,
               child: BlocBuilder<WeatherBloc, WeatherState>(
                   buildWhen: (previous, current) =>
-                      previous.weathers != current.weathers,
+                      previous.weathers.state != current.weathers.state,
                   builder: (context, state) {
-                    if (state.weathers.isNotEmpty) {
-                      return _weathers(state.weathers);
+                    if (state.weathers.state == ResponseState.success) {
+                      return _weathers(state.weathers.data!);
                     } else {
                       return _loading;
                     }
@@ -48,11 +49,11 @@ class WeatherHourlyForecasts extends StatelessWidget {
         ],
       );
 
-  Widget _weathers(List<WeatherModel> weathers) => ListView.builder(
+  Widget _weathers(List<WeatherForecastItemModel> weathers) => ListView.builder(
         scrollDirection: Axis.horizontal,
         itemCount: weathers.length,
         itemBuilder: (BuildContext context, int index) =>
-            WeatherHourlyHorizontalCard(weatherModel: weathers[index]),
+            WeatherHourlyHorizontalCard(weather: weathers[index]),
       );
 
   Widget get _loading => ListView.builder(

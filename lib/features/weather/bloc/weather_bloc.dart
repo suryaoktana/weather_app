@@ -1,5 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import '../../../core/const/weather_api_key.dart';
+import '../../../core/models/base_response.dart';
 import '../weather.dart';
 
 part 'weather_event.dart';
@@ -14,20 +16,29 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
         super(const WeatherState()) {
     on<WeatherEvent>((events, emit) async {
       await events.map(
-          fetch: (event) async => await _onFetch(event, emit),
-          select: (event) async => await _onSelectWeather(event, emit),
-          tabChanged: (event) async => await _onTabChanged(event, emit));
+        fetch: (event) async => await _onFetch(event, emit),
+        select: (event) async => await _onSelectWeather(event, emit),
+      );
     });
   }
 
   final WeatherRepository _weatherRepository;
 
   _onFetch(_FetchWeatherEvent event, Emitter<WeatherState> emit) async {
-    await Future.delayed(const Duration(seconds: 1));
-    emit(state.copyWith(
-      weathers: weathers,
-      selectedWeather: weathers[0],
-    ));
+    var response = await _weatherRepository.getWeatherForecasts(
+        const WeatherForecastRequestModel(
+            lat: '0', lon: '0', appid: weatherApiKey));
+
+    if (response.state == ResponseState.success) {
+      emit(state.copyWith(
+        weathers: response,
+        selectedWeather: response.data!.isNotEmpty ? response.data![0] : null,
+      ));
+    } else {
+      emit(state.copyWith(
+        weathers: response,
+      ));
+    }
   }
 
   _onSelectWeather(_SelectWeatherEvent event, Emitter<WeatherState> emit) {
@@ -35,11 +46,5 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
       emit(state.copyWith(tabSelected: 1));
     }
     emit(state.copyWith(selectedWeather: event.weatherModel, tabSelected: 0));
-  }
-
-  _onTabChanged(_TabChangedWeatherEvent event, Emitter<WeatherState> emit) {
-    emit(state.copyWith(
-      selectedWeather: event.weatherModel,
-    ));
   }
 }

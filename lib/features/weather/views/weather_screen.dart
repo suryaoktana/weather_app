@@ -54,11 +54,21 @@ class _WeatherScreenState extends State<WeatherScreen>
                 create: (BuildContext context) =>
                     WeatherBloc(weatherRepository: WeatherRepository())
                       ..add(const WeatherEvent.fetch()),
-                child: BlocListener<WeatherBloc, WeatherState>(
-                  listenWhen: (previous, current) =>
-                      previous.tabSelected != current.tabSelected,
-                  listener: (context, state) =>
-                      tabController.animateTo(state.tabSelected),
+                child: MultiBlocListener(
+                  listeners: [
+                    BlocListener<WeatherBloc, WeatherState>(
+                      listenWhen: (previous, current) =>
+                          previous.tabSelected != current.tabSelected,
+                      listener: (context, state) =>
+                          tabController.animateTo(state.tabSelected),
+                    ),
+                    BlocListener<WeatherBloc, WeatherState>(
+                      listenWhen: (_, current) =>
+                          current.weathers.state == ResponseState.error,
+                      listener: (context, state) =>
+                          showErrorPopUp(context, state.weathers.message),
+                    )
+                  ],
                   child: CustomScaffold(
                     body: TabBarView(
                       controller: tabController,

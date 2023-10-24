@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -43,3 +44,13 @@ DecorationImage getJpgDecorationImage(
         {required String imageAsset, BoxFit? fit}) =>
     DecorationImage(
         image: AssetImage('assets/images/$imageAsset.jpg'), fit: fit);
+
+CachedNetworkImage getCachedNetworkImage(
+        {required String imageUrl, double? height, double? width}) =>
+    CachedNetworkImage(
+      imageUrl: imageUrl,
+      placeholder: (context, url) => const CircularProgressIndicator(),
+      errorWidget: (context, url, error) => const Icon(Icons.error),
+      height: height,
+      width: width,
+    );
