@@ -45,12 +45,17 @@ DecorationImage getJpgDecorationImage(
     DecorationImage(
         image: AssetImage('assets/images/$imageAsset.jpg'), fit: fit);
 
-CachedNetworkImage getCachedNetworkImage(
-        {required String imageUrl, double? height, double? width}) =>
+CachedNetworkImage getCachedNetworkImage({
+  required String imageUrl,
+  double? height,
+  double? width,
+  BoxFit? fit,
+}) =>
     CachedNetworkImage(
       imageUrl: imageUrl,
       placeholder: (context, url) => const CircularProgressIndicator(),
       errorWidget: (context, url, error) => const Icon(Icons.error),
       height: height,
       width: width,
+      fit: fit,
     );

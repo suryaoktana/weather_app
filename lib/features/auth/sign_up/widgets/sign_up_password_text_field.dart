@@ -11,9 +11,9 @@ class SignUpPasswordTextField extends StatelessWidget {
   Widget build(BuildContext context) => BlocBuilder<SignUpBloc, SignUpState>(
         buildWhen: (previous, current) => previous.password != current.password,
         builder: (context, state) => PasswordTextField(
-            onChanged: (value) => context
-                .read<SignUpBloc>()
-                .add(SignUpEvent.passwordChanged(password: value)),
-            errorText: ''),
+          onChanged: (value) => context
+              .read<SignUpBloc>()
+              .add(SignUpEvent.passwordChanged(password: value)),
+        ),
       );
 }

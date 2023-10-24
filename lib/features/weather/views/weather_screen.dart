@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/models/base_response.dart';
 import '../../../core/utils/snackbar.dart';
+import '../../../core/widgets/custom_loading.dart';
 import '../../../core/widgets/custom_scaffold.dart';
 import '../../auth/bloc/auth_bloc.dart';
 import '../weather_list/views/views.dart';
@@ -48,7 +49,9 @@ class _WeatherScreenState extends State<WeatherScreen>
               previous.signOutState != current.signOutState,
           builder: (context, state) {
             if (state.signOutState.state == ResponseState.loading) {
-              return const Center(child: CircularProgressIndicator());
+              return const Center(
+                child: CustomLoading(),
+              );
             } else {
               return BlocProvider(
                 create: (BuildContext context) =>
@@ -74,7 +77,7 @@ class _WeatherScreenState extends State<WeatherScreen>
                       controller: tabController,
                       children: WeatherScreen.weatherPages,
                     ),
-                    bottomNavigationBar: BottomNavigation(
+                    bottomNavigationBar: WeatherBottomNavigation(
                       tabController: tabController,
                     ),
                   ),

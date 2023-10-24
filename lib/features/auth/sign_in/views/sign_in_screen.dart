@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/models/base_response.dart';
 import '../../../../core/utils/snackbar.dart';
+import '../../../../core/widgets/container_with_frosted_glass.dart';
+import '../../../../core/widgets/custom_loading.dart';
 import '../../../../core/widgets/custom_scaffold.dart';
-import '../../../weather/weather.dart';
 import '../../../../core/style/custom_colors.dart';
 import '../../../../core/widgets/background_container.dart';
 import '../../../../core/widgets/buttons/primary_button.dart';
@@ -33,7 +34,7 @@ class SignInScreen extends StatelessWidget {
                       previous.signInState != current.signInState,
                   builder: (context, state) {
                     if (state.signInState.state == ResponseState.loading) {
-                      return const CircularProgressIndicator();
+                      return const CustomLoading();
                     } else {
                       return _form(context);
                     }

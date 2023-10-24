@@ -11,8 +11,8 @@ class AuthTextFieldStyle {
       borderRadius: BorderRadius.all(Radius.circular(20)),
       borderSide: BorderSide(color: CustomColors.white, width: 2));
 
-  static TextStyle errorTextStyle =
-      CustomTextStyle.body2.copyWith(color: CustomColors.red, height: 1);
+  static TextStyle errorTextStyle = CustomTextStyle.body2
+      .copyWith(color: CustomColors.lightErrorMain, height: 1);
 
   static TextStyle labelTextStyle = CustomTextStyle.lightTypographyCaption
       .copyWith(color: CustomColors.black, height: 1.2);

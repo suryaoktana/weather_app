@@ -5,16 +5,12 @@ import '../../../../core/widgets/app_image.dart';
 import 'auth_text_field_style.dart';
 
 class PasswordTextField extends StatefulWidget {
-  final String hintText;
-  final String errorText;
   final String initialValue;
   final Function(String)? onChanged;
 
   const PasswordTextField({
     Key? key,
     this.onChanged,
-    this.hintText = '',
-    this.errorText = '',
     this.initialValue = '',
   }) : super(key: key);
 

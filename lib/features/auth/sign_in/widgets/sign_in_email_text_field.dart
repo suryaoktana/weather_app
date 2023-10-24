@@ -11,10 +11,10 @@ class SignInEmailTextField extends StatelessWidget {
   Widget build(BuildContext context) => BlocBuilder<SignInBloc, SignInState>(
         buildWhen: (previous, current) => previous.email != current.email,
         builder: (context, state) => EmailTextField(
-            initialValue: state.email,
-            onChanged: (value) => context
-                .read<SignInBloc>()
-                .add(SignInEvent.emailChanged(email: value)),
-            errorText: ''),
+          initialValue: state.email,
+          onChanged: (value) => context
+              .read<SignInBloc>()
+              .add(SignInEvent.emailChanged(email: value)),
+        ),
       );
 }

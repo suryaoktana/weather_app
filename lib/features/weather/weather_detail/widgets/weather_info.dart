@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../../../core/const/base_url.dart';
 import '../../../../core/style/custom_colors.dart';
 import '../../../../core/utils/date_utils.dart';
@@ -37,10 +36,17 @@ class WeatherInfo extends StatelessWidget {
             height: 40,
           ),
           SizedBox(
+            height: 8,
+          ),
+          ShimmerWidget(
+            width: 160,
+            height: 30,
+          ),
+          SizedBox(
             height: 12,
           ),
           ShimmerWidget(
-            width: 140,
+            width: 160,
             height: 80,
           ),
           SizedBox(
@@ -50,7 +56,7 @@ class WeatherInfo extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               ShimmerWidget(
-                width: 80,
+                width: 60,
                 height: 50,
               ),
               SizedBox(
@@ -62,13 +68,6 @@ class WeatherInfo extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(
-            height: 8,
-          ),
-          ShimmerWidget(
-            width: 160,
-            height: 30,
-          ),
         ],
       );
 
@@ -76,10 +75,12 @@ class WeatherInfo extends StatelessWidget {
           {required WeatherForecastItemModel weather,
           required String locationName}) =>
       Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           CustomText(
             locationName,
             style: CustomTextStyle.h3,
+            textAlign: TextAlign.center,
           ),
           const SizedBox(
             height: 12,
@@ -92,57 +93,74 @@ class WeatherInfo extends StatelessWidget {
           const SizedBox(
             height: 2,
           ),
-          CustomText(
-            '${weather.main.temp.ceil()}\u00B0',
-            style: CustomTextStyle.h1,
-          ),
-          const SizedBox(
-            height: 4,
-          ),
-          Transform.translate(
-            offset: const Offset(0, -30),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+          SizedBox(
+            width: 200,
+            child: Stack(
               children: [
-                Flexible(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CustomText(
-                        weather.weather[0].main,
-                        style: CustomTextStyle.h7.copyWith(
-                            color: CustomColors.white.withOpacity(0.5)),
-                      ),
-                      const SizedBox(
-                        height: 2,
-                      ),
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CustomText(
-                            'H:${weather.main.tempMax.ceil()}\u00B0',
-                            style: CustomTextStyle.body1SemiBold,
-                          ),
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          CustomText(
-                            'L:${weather.main.tempMin.ceil()}\u00B0',
-                            style: CustomTextStyle.body1SemiBold,
-                          ),
-                        ],
-                      ),
-                    ],
+                Padding(
+                  padding: const EdgeInsets.only(left: 16.0),
+                  child: CustomText(
+                    '${weather.main.temp.ceil()}\u00B0',
+                    style: CustomTextStyle.h1,
                   ),
                 ),
-                getCachedNetworkImage(
-                  imageUrl: openWeatherImageBaseUrl(weather.weather[0].icon),
-                  height: 100,
-                  width: 100,
-                ),
+                Positioned(
+                  right: -12,
+                  bottom: -16,
+                  child: getCachedNetworkImage(
+                      imageUrl:
+                          openWeatherImageBaseUrl(weather.weather[0].icon),
+                      height: 100,
+                      width: 100,
+                      fit: BoxFit.fill),
+                )
               ],
             ),
+          ),
+          const SizedBox(
+            height: 3,
+          ),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              CustomText(
+                'H:${weather.main.tempMax.ceil()}\u00B0',
+                style: CustomTextStyle.body1SemiBold,
+              ),
+              const SizedBox(
+                width: 8,
+              ),
+              CustomText(
+                'L:${weather.main.tempMin.ceil()}\u00B0',
+                style: CustomTextStyle.body1SemiBold,
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 2,
+          ),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CustomText(
+                weather.weather[0].main,
+                style: CustomTextStyle.h5
+                    .copyWith(color: CustomColors.white.withOpacity(0.5)),
+              ),
+              const SizedBox(
+                width: 8,
+              ),
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 1.0),
+                  child: CustomText(
+                    weather.weather[0].description,
+                    style: CustomTextStyle.body2,
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       );

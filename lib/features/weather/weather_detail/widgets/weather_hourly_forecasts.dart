@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/models/base_response.dart';
+import '../../../../core/widgets/container_with_frosted_glass.dart';
 import '../../../../core/widgets/shimmer_widget.dart';
 import '../../../../core/widgets/custom_text.dart';
-import '../../weather.dart';
 import '../weather_detail.dart';
 
 class WeatherHourlyForecasts extends StatelessWidget {

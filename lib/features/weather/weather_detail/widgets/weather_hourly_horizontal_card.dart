@@ -66,7 +66,7 @@ class WeatherHourlyHorizontalCard extends StatelessWidget {
                   ),
                   CustomText(
                     '${weather.main.temp.ceil()}\u00B0c',
-                    style: CustomTextStyle.h6,
+                    style: CustomTextStyle.h4,
                   ),
                 ],
               ),

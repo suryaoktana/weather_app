@@ -30,33 +30,41 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   _onFetch(_FetchWeatherEvent event, Emitter<WeatherState> emit) async {
     ///get user current location
     final Position position = await _getCurrentPosition;
-    Placemark? placeMark = await getPlaceMark(position);
+    final Placemark? placeMark = await getPlaceMark(position);
 
     if (placeMark != null) {
-      ///set locationName based on most accurate location available
-      emit(state.copyWith(
-          locationName: placeMark.locality ??
-              placeMark.administrativeArea ??
-              placeMark.country ??
-              ''));
+      emit(state.copyWith(locationName: _getFinestLocationName(placeMark)));
     }
 
     var response = await _weatherRepository.getWeatherForecasts(
-        WeatherForecastRequestModel(
-            lat: position.latitude.toString(),
-            lon: position.longitude.toString()));
+      latitude: position.latitude,
+      longitude: position.longitude,
+    );
 
     if (response.state == ResponseState.success) {
-      emit(state.copyWith(
-        weathers: response,
-        selectedWeather: response.data!.isNotEmpty ? response.data![0] : null,
-      ));
+      emit(
+        state.copyWith(
+            weathers: response,
+            selectedWeather:
+                response.data!.isNotEmpty ? response.data![0] : null),
+      );
     } else {
-      emit(state.copyWith(
-        weathers: response,
-      ));
+      emit(
+        state.copyWith(
+          weathers: response,
+        ),
+      );
     }
   }
+
+  String _getFinestLocationName(Placemark placeMark) =>
+
+      ///set locationName based on finest location available
+      placeMark.subLocality ??
+      placeMark.locality ??
+      placeMark.administrativeArea ??
+      placeMark.country ??
+      '';
 
   Future<Placemark?> getPlaceMark(Position position) async {
     List<Placemark> placeMarks =

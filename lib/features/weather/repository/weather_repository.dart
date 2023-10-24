@@ -7,11 +7,13 @@ import '../weather.dart';
 
 class WeatherRepository {
   Future<BaseResponse<List<WeatherForecastItemModel>>> getWeatherForecasts(
-      WeatherForecastRequestModel weatherForecastRequestModel) async {
+      {required double latitude, required double longitude}) async {
     try {
       Response response = await WeatherApiClient().get(
           endpoint: forecastsEndpoint,
-          queryParameters: weatherForecastRequestModel.toJson());
+          queryParameters: WeatherForecastRequestModel(
+                  lat: latitude.toString(), lon: longitude.toString())
+              .toJson());
       return BaseResponse.complete(
           data: WeatherForecastResponseModel.fromJson(response.data).list);
     } catch (e) {

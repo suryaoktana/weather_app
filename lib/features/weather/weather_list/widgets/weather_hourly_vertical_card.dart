@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/const/base_url.dart';
 import '../../../../core/style/custom_colors.dart';
+import '../../../../core/utils/date_utils.dart';
 import '../../../../core/widgets/app_image.dart';
 import '../../../../core/widgets/custom_text.dart';
 import '../../weather_detail/weather_detail.dart';
@@ -46,7 +47,7 @@ class WeatherHourlyVerticalCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       CustomText(
-                        '${weather.main.temp}\u00B0',
+                        '${weather.main.temp.ceil()}\u00B0',
                         style: CustomTextStyle.h2,
                       ),
                       getCachedNetworkImage(
@@ -83,16 +84,26 @@ class WeatherHourlyVerticalCard extends StatelessWidget {
                               ],
                             ),
                             CustomText(
-                              'Ungaran',
+                              state.locationName,
                               style: CustomTextStyle.body1SemiBold,
                             ),
                           ],
                         ),
                       ),
-                      CustomText(
-                        weather.weather[0].main,
-                        style: CustomTextStyle.body1
-                            .copyWith(color: CustomColors.white),
+                      Column(
+                        children: [
+                          CustomText(
+                            weather.weather[0].main,
+                            style: CustomTextStyle.body1
+                                .copyWith(color: CustomColors.white),
+                          ),
+                          CustomText(
+                            formatDateTimeAsString(weather.dtTxt,
+                                dateFormat: 'EEEE, dd-MM-yyyy'),
+                            style: CustomTextStyle.lightTypographyCaption
+                                .copyWith(color: CustomColors.white),
+                          ),
+                        ],
                       ),
                     ],
                   ),

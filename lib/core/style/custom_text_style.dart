@@ -30,32 +30,15 @@ class CustomTextStyle {
     return _textStyle.copyWith(
         fontSize: fontSize,
         letterSpacing: 0,
-        height: _fontHeight(fontSize: fontSize, figmaLineHeight: 32),
+        height: _fontHeight(fontSize: fontSize, figmaLineHeight: 36),
         fontWeight: CustomFontWeight.medium.value);
   }
 
-  static TextStyle get h5 {
-    double fontSize = 24;
-    return _textStyle.copyWith(
-        fontSize: fontSize,
-        letterSpacing: 0,
-        height: _fontHeight(fontSize: fontSize, figmaLineHeight: 32.02),
-        fontWeight: CustomFontWeight.extraBold.value);
-  }
-
-  static TextStyle h6 = _textStyle.copyWith(
+  static TextStyle h4 = _textStyle.copyWith(
       fontSize: 22, height: 1.2, fontWeight: CustomFontWeight.bold.value);
 
-  static TextStyle h7 = _textStyle.copyWith(
+  static TextStyle h5 = _textStyle.copyWith(
       fontSize: 19, height: 1.2, fontWeight: CustomFontWeight.extraBold.value);
-
-  static TextStyle get lightComponentsChip {
-    double fontSize = 13;
-    return _textStyle.copyWith(
-        fontSize: fontSize,
-        height: _fontHeight(fontSize: fontSize, figmaLineHeight: 18),
-        fontWeight: CustomFontWeight.regular.value);
-  }
 
   static TextStyle lightTypographyCaption = _textStyle.copyWith(
       fontSize: 12,
@@ -73,13 +56,6 @@ class CustomTextStyle {
     fontSize: 16,
     height: 1.2,
     fontWeight: CustomFontWeight.semiBold.value,
-    letterSpacing: 0.15,
-  );
-
-  static TextStyle lightTypographyBody1 = _textStyle.copyWith(
-    fontSize: 16,
-    height: 1.2,
-    fontWeight: CustomFontWeight.regular.value,
     letterSpacing: 0.15,
   );
 
@@ -122,21 +98,6 @@ class CustomTextStyle {
       height: 1.2,
       fontWeight: CustomFontWeight.semiBold.value,
       letterSpacing: 0.15);
-
-  static TextStyle lightComponentInputText = _textStyle.copyWith(
-      letterSpacing: 0.15,
-      fontSize: 16,
-      height: 1.2,
-      fontWeight: CustomFontWeight.regular.value);
-
-  static TextStyle get lightComponentInputLabel {
-    double fontSize = 13;
-    return _textStyle.copyWith(
-        letterSpacing: 0.3,
-        fontSize: fontSize,
-        height: _fontHeight(fontSize: fontSize, figmaLineHeight: 18),
-        fontWeight: CustomFontWeight.regular.value);
-  }
 }
 
 double _fontHeight(

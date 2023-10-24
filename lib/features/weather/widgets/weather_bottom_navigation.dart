@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import '../../../core/style/custom_colors.dart';
-import '../weather.dart';
+import '../../../core/widgets/container_with_frosted_glass.dart';
 
-class BottomNavigation extends StatelessWidget {
+class WeatherBottomNavigation extends StatelessWidget {
   final TabController tabController;
-  const BottomNavigation({required this.tabController, super.key});
+  const WeatherBottomNavigation({required this.tabController, super.key});
 
   @override
   Widget build(BuildContext context) => Container(
