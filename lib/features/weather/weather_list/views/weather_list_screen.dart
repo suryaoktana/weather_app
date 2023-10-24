@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:weather_app/core/style/custom_values.dart';
-import 'package:weather_app/core/widgets/custom_text.dart';
-import 'package:weather_app/features/weather/weather.dart';
-import 'package:weather_app/features/weather/weather_list/weather_list.dart';
+import '../../../../core/style/custom_values.dart';
+import '../../../../core/widgets/custom_text.dart';
+import '../../weather.dart';
+import '../weather_list.dart';
 
 import '../../../../core/style/custom_colors.dart';
 import '../../../../core/widgets/shimmer_widget.dart';

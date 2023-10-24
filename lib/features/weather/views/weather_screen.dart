@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:weather_app/core/widgets/custom_scaffold.dart';
-import 'package:weather_app/features/weather/weather_list/views/views.dart';
-import '../../../../core/widgets/app_image.dart';
+import '../../../core/widgets/custom_scaffold.dart';
+import '../weather_list/views/views.dart';
+import '../../../core/widgets/background_container.dart';
 import '../weather.dart';
 import '../weather_detail/weather_detail.dart';
 
 class WeatherScreen extends StatefulWidget {
+  static const String route = '/weather_screen';
+
   const WeatherScreen({super.key});
 
   static const List<Widget> weatherPages = [
     WeatherDetailScreen(),
     WeatherListScreen()
   ];
+
+  static Future<void> open(BuildContext context) async =>
+      Navigator.of(context).pushNamed(route);
 
   @override
   State<WeatherScreen> createState() => _WeatherScreenState();
@@ -30,10 +35,7 @@ class _WeatherScreenState extends State<WeatherScreen>
   }
 
   @override
-  Widget build(BuildContext context) => Container(
-        decoration: BoxDecoration(
-            image: getJpgDecorationImage(
-                imageAsset: 'starry_night', fit: BoxFit.cover)),
+  Widget build(BuildContext context) => BackgroundContainer(
         child: BlocProvider(
           create: (BuildContext context) =>
               WeatherBloc(weatherRepository: WeatherRepository())

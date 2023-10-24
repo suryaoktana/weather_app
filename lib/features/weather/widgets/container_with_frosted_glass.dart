@@ -1,6 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:weather_app/core/style/custom_colors.dart';
+import '../../../core/style/custom_colors.dart';
 import '../../../core/style/custom_values.dart';
 
 class ContainerWithFrostedGlass extends StatelessWidget {

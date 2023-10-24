@@ -2,3 +2,11 @@ include: package:flutter_lints/flutter.yaml
 
 linter:
   rules:
+    avoid_print: true
+    prefer_relative_imports: true
+    prefer_const_constructors: true
+    avoid_empty_else: true
+    prefer_single_quotes: true
+    discarded_futures: true
+    avoid_final_parameters: true
+    avoid_init_to_null: true
