@@ -135,7 +135,7 @@ class WeatherInfo extends StatelessWidget {
               ),
               Flexible(
                 child: Padding(
-                  padding: const EdgeInsets.only(top: 1.0),
+                  padding: const EdgeInsets.only(top: 2.5),
                   child: CustomText(
                     weather.weather[0].description,
                     style: CustomTextStyle.body2,
