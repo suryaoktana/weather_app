@@ -55,7 +55,9 @@ CachedNetworkImage getCachedNetworkImage({
       imageUrl: imageUrl,
       placeholder: (context, url) => const Padding(
         padding: EdgeInsets.all(6.0),
-        child: CircularProgressIndicator(strokeWidth: 6,),
+        child: CircularProgressIndicator(
+          strokeWidth: 6,
+        ),
       ),
       errorWidget: (context, url, error) => const Icon(Icons.error),
       height: height,

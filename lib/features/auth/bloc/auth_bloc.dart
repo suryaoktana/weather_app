@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import '../../../core/models/base_response.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -18,6 +19,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         await events.map(
           signInSubmitted: (event) async =>
               await _onSignInSubmitted(event, emit),
+          googleSignIn: (event) async => await _onGoogleSignIn(event, emit),
           signUpSubmitted: (event) async =>
               await _onSignUpSubmitted(event, emit),
           signOutSubmitted: (event) async =>
@@ -35,6 +37,22 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       await _firebaseAuth.signInWithEmailAndPassword(
           email: event.email, password: event.password);
+      emit(state.copyWith(
+          signInState: BaseResponse.complete(), isAuthenticated: true));
+    } on FirebaseAuthException catch (e) {
+      emit(state.copyWith(
+          signInState: BaseResponse.error(message: e.message ?? '')));
+    }
+  }
+
+  _onGoogleSignIn(_GoogleSignInAuthEvent event, Emitter<AuthState> emit) async {
+    emit(state.copyWith(signInState: BaseResponse.loading()));
+    try {
+      final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
+      final GoogleSignInAuthentication gAuth = await gUser!.authentication;
+      final credential = GoogleAuthProvider.credential(
+          accessToken: gAuth.accessToken, idToken: gAuth.idToken);
+      await _firebaseAuth.signInWithCredential(credential);
       emit(state.copyWith(
           signInState: BaseResponse.complete(), isAuthenticated: true));
     } on FirebaseAuthException catch (e) {

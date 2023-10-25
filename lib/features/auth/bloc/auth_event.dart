@@ -6,6 +6,8 @@ class AuthEvent with _$AuthEvent {
       {required String email,
       required String password}) = _SignInSubmittedAuthEvent;
 
+  const factory AuthEvent.googleSignIn() = _GoogleSignInAuthEvent;
+
   const factory AuthEvent.signUpSubmitted(
       {required String email,
       required String password}) = _SignUpSubmittedAuthEvent;

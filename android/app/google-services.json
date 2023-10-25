@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "210345626252",
+    "project_id": "weather-app-86bda",
+    "storage_bucket": "weather-app-86bda.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:210345626252:android:496e03d6c6e214f86449a9",
+        "android_client_info": {
+          "package_name": "surya.oktana.weather_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBwk3fdLbj24ItI3JUrJ0oGDEnpUHEqM7o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

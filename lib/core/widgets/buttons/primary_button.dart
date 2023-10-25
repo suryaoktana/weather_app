@@ -4,6 +4,7 @@ import '../custom_text.dart';
 
 enum ButtonPrimaryType {
   solidPrimary,
+  solidWhite,
 }
 
 class PrimaryButton extends StatelessWidget {
@@ -13,14 +14,18 @@ class PrimaryButton extends StatelessWidget {
   final FontStyle fontStyle;
   final VoidCallback onTap;
   final bool expandableHeight;
+  final Widget? child;
+  final Color? labelColor;
 
   PrimaryButton(
-      {required this.label,
+      {this.label = '',
       this.buttonPrimaryType = ButtonPrimaryType.solidPrimary,
       this.disabled = false,
       required this.onTap,
       this.fontStyle = FontStyle.italic,
       this.expandableHeight = false,
+      this.labelColor,
+      this.child,
       Key? key})
       : super(key: key);
 
@@ -46,10 +51,12 @@ class PrimaryButton extends StatelessWidget {
                 onTap();
               }
             },
-            child: CustomText(
-              label,
-              style: CustomTextStyle.lightComponentsButtonLarge,
-            )),
+            child: child ??
+                CustomText(
+                  label,
+                  style: CustomTextStyle.lightComponentsButtonLarge
+                      .copyWith(color: labelColor),
+                )),
       ),
     );
   }
@@ -67,6 +74,19 @@ class PrimaryButton extends StatelessWidget {
             foregroundColor: _getColor(
                 disabled ? CustomColors.darkGray : CustomColors.white,
                 CustomColors.lightPurpleSecondary.withOpacity(0.9)),
+            shape: _getBorder(
+              Colors.transparent,
+              Colors.transparent,
+            ));
+      case ButtonPrimaryType.solidWhite:
+        return _defaultButtonStyle.copyWith(
+            minimumSize: _getButtonMinimumSize,
+            backgroundColor: _getColor(
+                disabled ? CustomColors.gray : CustomColors.white,
+                CustomColors.white.withOpacity(0.9)),
+            foregroundColor: _getColor(
+                disabled ? CustomColors.darkGray : CustomColors.white,
+                CustomColors.white.withOpacity(0.9)),
             shape: _getBorder(
               Colors.transparent,
               Colors.transparent,

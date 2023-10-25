@@ -5,13 +5,10 @@ import '../../../../core/utils/snackbar.dart';
 import '../../../../core/widgets/container_with_frosted_glass.dart';
 import '../../../../core/widgets/custom_loading.dart';
 import '../../../../core/widgets/custom_scaffold.dart';
-import '../../../../core/style/custom_colors.dart';
 import '../../../../core/widgets/background_container.dart';
-import '../../../../core/widgets/buttons/primary_button.dart';
-import '../../../../core/widgets/custom_text.dart';
 import '../../auth.dart';
-import '../../sign_up/views/sign_up_screen.dart';
 import '../sign_in.dart';
+import '../widgets/sign_in_button.dart';
 
 class SignInScreen extends StatelessWidget {
   static const String route = '/sign_in';
@@ -48,53 +45,26 @@ class SignInScreen extends StatelessWidget {
 
   Widget _form(BuildContext context) => ListView(
         shrinkWrap: true,
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              CustomText(
-                'Sign In',
-                style: CustomTextStyle.h3.copyWith(color: CustomColors.white),
-              ),
-              const SizedBox(
-                height: 13,
-              ),
-              CustomText('Welcome back to Weather App!',
-                  style: CustomTextStyle.body2SemiBold
-                      .copyWith(color: CustomColors.white)),
-            ],
-          ),
+        children: const [
+          SignInTitle(),
+          AuthTitleFormHeightSeparator(),
+          SignInEmailTextField(),
           SizedBox(
-            height: MediaQuery.of(context).size.height / 14,
-          ),
-          const SignInEmailTextField(),
-          const SizedBox(
             height: 25,
           ),
-          const SignInPasswordTextField(),
-          const SizedBox(
+          SignInPasswordTextField(),
+          SizedBox(
             height: 24,
           ),
-          InkWell(
-            onTap: () async => SignUpScreen.open(context),
-            child: CustomText("Don't have an Account? Sign Up here",
-                style: CustomTextStyle.lightTypographyBody2
-                    .copyWith(color: CustomColors.white)),
-          ),
-          const SizedBox(
+          SignUpTextButton(),
+          SizedBox(
             height: 48,
           ),
-          BlocBuilder<SignInBloc, SignInState>(
-            buildWhen: (previous, current) =>
-                previous.email != current.email ||
-                previous.password != current.password,
-            builder: (context, state) => PrimaryButton(
-              label: 'Sign In',
-              onTap: () => context.read<AuthBloc>().add(
-                  AuthEvent.signInSubmitted(
-                      email: state.email, password: state.password)),
-            ),
-          )
+          SignInButton(),
+          SizedBox(
+            height: 16,
+          ),
+          SignInWithGoogleButton(),
         ],
       );
 
