@@ -5,12 +5,14 @@ class WeatherDetailScreen extends StatelessWidget {
   const WeatherDetailScreen({super.key});
 
   @override
-  Widget build(BuildContext context) => const Column(
+  Widget build(BuildContext context) =>   Column(
         crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          WeatherInfo(),
-          WeatherHourlyForecasts(),
+          Expanded(child: Container(
+              color:Colors.green,
+              child: WeatherInfo())),
+          Flexible(child: WeatherHourlyForecasts()),
         ],
       );
 }
