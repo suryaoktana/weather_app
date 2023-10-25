@@ -26,7 +26,8 @@ class WeatherInfo extends StatelessWidget {
                   constraints: const BoxConstraints(minHeight: 350),
                   child: BlocBuilder<WeatherBloc, WeatherState>(
                     buildWhen: (previous, current) =>
-                        previous.weathers.state != current.weathers.state,
+                        previous.weathers.state != current.weathers.state ||
+                        previous.selectedWeather != current.selectedWeather,
                     builder: (context, state) {
                       if (state.weathers.state == ResponseState.success) {
                         return _contentInfo(
