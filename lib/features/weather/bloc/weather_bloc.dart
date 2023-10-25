@@ -58,6 +58,7 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   }
 
   String _getFinestLocationName(Placemark placeMark) =>
+
       ///set locationName based on finest location available
       (placeMark.subLocality != null && placeMark.subLocality!.isNotEmpty)
           ? placeMark.subLocality!

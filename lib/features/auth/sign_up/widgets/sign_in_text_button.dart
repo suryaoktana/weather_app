@@ -9,7 +9,7 @@ class SignInTextButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => InkWell(
-        onTap: () async => SignInScreen.open(context),
+        onTap: () async => SignInScreen.openAndRemoveAllRoute(context),
         child: CustomText('Already have an Account? Sign In here',
             style: CustomTextStyle.lightTypographyBody2
                 .copyWith(color: CustomColors.white)),

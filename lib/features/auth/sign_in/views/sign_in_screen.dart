@@ -6,6 +6,7 @@ import '../../../../core/widgets/container_with_frosted_glass.dart';
 import '../../../../core/widgets/custom_loading.dart';
 import '../../../../core/widgets/custom_scaffold.dart';
 import '../../../../core/widgets/background_container.dart';
+import '../../../weather/views/views.dart';
 import '../../auth.dart';
 import '../sign_in.dart';
 import '../widgets/sign_in_button.dart';
@@ -23,12 +24,17 @@ class SignInScreen extends StatelessWidget {
               create: (_) => SignInBloc(),
               child: Center(
                 child: BlocConsumer<AuthBloc, AuthState>(
-                  listenWhen: (_, current) =>
-                      current.signInState.state == ResponseState.error,
-                  listener: (context, state) =>
-                      showErrorPopUp(context, state.signInState.message),
+                  listenWhen: (previous, current) =>
+                      previous.signInState.state != current.signInState.state,
+                  listener: (context, state) async {
+                    if (state.signInState.state == ResponseState.success) {
+                      WeatherScreen.openAndRemoveAllRoute(context);
+                    } else if (state.signInState.state == ResponseState.error) {
+                      showErrorPopUp(context, state.signInState.message);
+                    }
+                  },
                   buildWhen: (previous, current) =>
-                      previous.signInState != current.signInState,
+                      previous.signInState.state != current.signInState.state,
                   builder: (context, state) {
                     if (state.signInState.state == ResponseState.loading) {
                       return const CustomLoading();
@@ -44,6 +50,8 @@ class SignInScreen extends StatelessWidget {
       );
 
   Widget _form(BuildContext context) => ListView(
+        padding: const EdgeInsets.symmetric(vertical: 24),
+        physics: const ClampingScrollPhysics(),
         shrinkWrap: true,
         children: const [
           SignInTitle(),
@@ -68,6 +76,7 @@ class SignInScreen extends StatelessWidget {
         ],
       );
 
-  static Future<void> open(BuildContext context) async =>
-      Navigator.of(context).pushNamed(route);
+  static Future<void> openAndRemoveAllRoute(BuildContext context) async =>
+      Navigator.of(context, rootNavigator: true)
+          .pushNamedAndRemoveUntil(route, (Route<dynamic> route) => false);
 }

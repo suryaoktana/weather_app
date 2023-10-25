@@ -37,11 +37,11 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       await _firebaseAuth.signInWithEmailAndPassword(
           email: event.email, password: event.password);
+      emit(state.copyWith(signInState: BaseResponse.complete()));
+    } on FirebaseAuthException catch (_) {
       emit(state.copyWith(
-          signInState: BaseResponse.complete(), isAuthenticated: true));
-    } on FirebaseAuthException catch (e) {
-      emit(state.copyWith(
-          signInState: BaseResponse.error(message: e.message ?? '')));
+          signInState: BaseResponse.error(
+              message: 'Invalid Credentials or User is not registered yet')));
     }
   }
 
@@ -54,8 +54,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         final credential = GoogleAuthProvider.credential(
             accessToken: gAuth.accessToken, idToken: gAuth.idToken);
         await _firebaseAuth.signInWithCredential(credential);
-        emit(state.copyWith(
-            signInState: BaseResponse.complete(), isAuthenticated: true));
+        emit(state.copyWith(signInState: BaseResponse.complete()));
       } else {
         ///sign in cancelled by user will return to default state
         emit(state.copyWith(signInState: const BaseResponse()));
@@ -72,8 +71,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       await _firebaseAuth.createUserWithEmailAndPassword(
           email: event.email, password: event.password);
-      emit(state.copyWith(
-          signUpState: BaseResponse.complete(), isAuthenticated: true));
+      emit(state.copyWith(signUpState: BaseResponse.complete()));
     } on FirebaseAuthException catch (e) {
       emit(state.copyWith(
           signUpState: BaseResponse.error(message: e.message ?? '')));
@@ -85,8 +83,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(state.copyWith(signOutState: BaseResponse.loading()));
     try {
       await _firebaseAuth.signOut();
-      emit(state.copyWith(
-          signOutState: BaseResponse.complete(), isAuthenticated: false));
+      emit(state.copyWith(signOutState: BaseResponse.complete()));
     } on FirebaseAuthException catch (e) {
       emit(state.copyWith(
           signOutState: BaseResponse.error(message: e.message ?? '')));

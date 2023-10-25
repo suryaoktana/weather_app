@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/models/base_response.dart';
+import '../../../../core/style/custom_colors.dart';
 import '../../../../core/widgets/container_with_frosted_glass.dart';
 import '../../../../core/widgets/shimmer_widget.dart';
 import '../../../../core/widgets/custom_text.dart';
@@ -11,28 +12,41 @@ class WeatherHourlyForecasts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-    constraints: const BoxConstraints(maxHeight: 300),
-    child: Column(
+        constraints: const BoxConstraints(maxHeight: 300),
+        child: Column(
           children: [
             SizedBox(
               height: 50,
               child: ContainerWithFrostedGlass(
                 borderRadius: const BorderRadius.only(
-                    topLeft: Radius.circular(48), topRight: Radius.circular(48)),
-                child: Align(
-                  alignment: Alignment.bottomLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 4.0),
-                    child: CustomText(
-                      'Hourly Forecast',
-                      style: CustomTextStyle.body2,
+                    topLeft: Radius.circular(48),
+                    topRight: Radius.circular(48)),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.only(top: 10),
+                      width: 60,
+                      height: 4,
+                      color: CustomColors.white,
                     ),
-                  ),
+                    Align(
+                      alignment: Alignment.bottomLeft,
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 4.0),
+                        child: CustomText(
+                          'Hourly Forecast',
+                          style: CustomTextStyle.body2,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
             Expanded(
               child: Container(
+                height: 250,
                 margin: const EdgeInsets.only(top: 4),
                 child: ContainerWithFrostedGlass(
                   childPadding: EdgeInsets.zero,
@@ -51,7 +65,7 @@ class WeatherHourlyForecasts extends StatelessWidget {
             ),
           ],
         ),
-  );
+      );
 
   Widget _weathers(List<WeatherForecastItemModel> weathers) => ListView.builder(
         scrollDirection: Axis.horizontal,

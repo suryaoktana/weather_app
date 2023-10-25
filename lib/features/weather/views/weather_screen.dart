@@ -5,6 +5,7 @@ import '../../../core/utils/snackbar.dart';
 import '../../../core/widgets/custom_loading.dart';
 import '../../../core/widgets/custom_scaffold.dart';
 import '../../auth/bloc/auth_bloc.dart';
+import '../../auth/sign_in/sign_in.dart';
 import '../weather_list/views/views.dart';
 import '../../../core/widgets/background_container.dart';
 import '../weather.dart';
@@ -20,8 +21,9 @@ class WeatherScreen extends StatefulWidget {
     WeatherListScreen()
   ];
 
-  static Future<void> open(BuildContext context) async =>
-      Navigator.of(context).pushNamed(route);
+  static Future<void> openAndRemoveAllRoute(BuildContext context) async =>
+      Navigator.of(context, rootNavigator: true)
+          .pushNamedAndRemoveUntil(route, (Route<dynamic> route) => false);
 
   @override
   State<WeatherScreen> createState() => _WeatherScreenState();
@@ -41,10 +43,15 @@ class _WeatherScreenState extends State<WeatherScreen>
   @override
   Widget build(BuildContext context) => BackgroundContainer(
         child: BlocConsumer<AuthBloc, AuthState>(
-          listenWhen: (_, current) =>
-              current.signOutState.state == ResponseState.error,
-          listener: (context, state) =>
-              showErrorPopUp(context, state.signOutState.message),
+          listenWhen: (previous, current) =>
+              previous.signOutState.state != current.signOutState.state,
+          listener: (context, state) async {
+            if (state.signOutState.state == ResponseState.success) {
+              SignInScreen.openAndRemoveAllRoute(context);
+            } else if (state.signOutState.state == ResponseState.error) {
+              showErrorPopUp(context, state.signOutState.message);
+            }
+          },
           buildWhen: (previous, current) =>
               previous.signOutState != current.signOutState,
           builder: (context, state) {
