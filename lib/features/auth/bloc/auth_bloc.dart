@@ -84,6 +84,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       _SignOutSubmittedAuthEvent event, Emitter<AuthState> emit) async {
     emit(state.copyWith(signOutState: BaseResponse.loading()));
     try {
+      await GoogleSignIn().signOut();
       await _firebaseAuth.signOut();
       emit(state.copyWith(signOutState: BaseResponse.complete()));
     } on FirebaseAuthException catch (e) {
