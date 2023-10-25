@@ -37,6 +37,9 @@
   all files needed
 - Make sure you already open simulator
 - Run "flutter run" to run the app
+- if had any problem when running the app on iOS, try to delete Podfile.lock and run following
+  command "pod install" in the terminal
+- rerun the app
 
 ## How to build the App - iOS
 
