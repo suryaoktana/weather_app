@@ -19,6 +19,8 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
       await events.map(
         fetch: (event) async => await _onFetch(event, emit),
         select: (event) async => await _onSelectWeather(event, emit),
+        selectWeatherType: (event) async =>
+            await _onSelectWeatherType(event, emit),
         initiateLocationServices: (event) async =>
             await _onInitiateLocationServices(event, emit),
       );
@@ -28,6 +30,8 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
   final WeatherRepository _weatherRepository;
 
   _onFetch(_FetchWeatherEvent event, Emitter<WeatherState> emit) async {
+    emit(state.copyWith(weathers: BaseResponse.loading()));
+
     ///get user current location
     final Position position = await _getCurrentPosition;
     final Placemark? placeMark = await getPlaceMark(position);
@@ -37,9 +41,9 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
     }
 
     var response = await _weatherRepository.getWeatherForecasts(
-      latitude: position.latitude,
-      longitude: position.longitude,
-    );
+        latitude: position.latitude,
+        longitude: position.longitude,
+        units: state.weatherType.name);
 
     if (response.state == ResponseState.success) {
       emit(
@@ -90,6 +94,12 @@ class WeatherBloc extends Bloc<WeatherEvent, WeatherState> {
       emit(state.copyWith(tabSelected: 1));
     }
     emit(state.copyWith(selectedWeather: event.weatherModel, tabSelected: 0));
+  }
+
+  _onSelectWeatherType(
+      _SelectWeatherTypeEvent event, Emitter<WeatherState> emit) {
+    emit(state.copyWith(weatherType: event.weatherType));
+    add(const WeatherEvent.fetch());
   }
 
   _onInitiateLocationServices(_InitiateLocationServicesWeatherEvent event,

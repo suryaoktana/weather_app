@@ -9,5 +9,6 @@ class WeatherState with _$WeatherState {
     @Default(0) int tabSelected,
     @Default(BaseResponse()) BaseResponse<bool> isLocationServiceEnabledState,
     @Default('') String locationName,
+    @Default(WeatherType.metric) WeatherType weatherType,
   }) = _WeatherState;
 }

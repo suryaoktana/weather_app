@@ -18,7 +18,7 @@ class _WeatherForecastOverlayState extends State<WeatherForecastOverlay>
   final Duration openAndCloseAnimationDuration =
       const Duration(milliseconds: 250);
   final Duration dragAnimationDuration = const Duration(milliseconds: 100);
-  final double maxHeight = 300;
+  final double maxHeight = 316;
 
   @override
   void dispose() {

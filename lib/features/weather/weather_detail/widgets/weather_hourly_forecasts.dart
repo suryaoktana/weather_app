@@ -12,11 +12,11 @@ class WeatherHourlyForecasts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        constraints: const BoxConstraints(maxHeight: 300),
+        constraints: const BoxConstraints(maxHeight: 316),
         child: Column(
           children: [
             SizedBox(
-              height: 50,
+              height: 66,
               child: ContainerWithFrostedGlass(
                 borderRadius: const BorderRadius.only(
                     topLeft: Radius.circular(48),
@@ -30,14 +30,17 @@ class WeatherHourlyForecasts extends StatelessWidget {
                       height: 4,
                       color: CustomColors.white,
                     ),
-                    Align(
-                      alignment: Alignment.bottomLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 4.0),
-                        child: CustomText(
-                          'Hourly Forecast',
-                          style: CustomTextStyle.body2,
-                        ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 4.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CustomText(
+                            'Hourly Forecast',
+                            style: CustomTextStyle.body2,
+                          ),
+                          const WeatherTypeDropdown()
+                        ],
                       ),
                     ),
                   ],
