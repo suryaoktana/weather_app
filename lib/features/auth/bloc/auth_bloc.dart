@@ -62,6 +62,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     } on FirebaseAuthException catch (e) {
       emit(state.copyWith(
           signInState: BaseResponse.error(message: e.message ?? '')));
+    } catch (e) {
+      emit(state.copyWith(signInState: BaseResponse.error()));
     }
   }
 

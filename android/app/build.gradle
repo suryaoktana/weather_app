@@ -40,6 +40,15 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
     }
 
+    signingConfigs {
+        release {
+            storeFile rootProject.file("debug.keystore")
+        }
+        debug {
+            storeFile rootProject.file("debug.keystore")
+        }
+    }
+
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "surya.oktana.weather_app"

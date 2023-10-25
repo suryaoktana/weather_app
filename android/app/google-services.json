@@ -12,7 +12,20 @@
           "package_name": "surya.oktana.weather_app"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "210345626252-g0l2fte6bps6qn1lvgn9j5gl0snq5kiq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "surya.oktana.weather_app",
+            "certificate_hash": "1bbe5d08608203f1c1ad7fb31e87083ce3d356d2"
+          }
+        },
+        {
+          "client_id": "210345626252-7dfo0bfabpqbkdiih2v4i1gsinis1853.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyBwk3fdLbj24ItI3JUrJ0oGDEnpUHEqM7o"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "210345626252-7dfo0bfabpqbkdiih2v4i1gsinis1853.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "210345626252-3peggeci1oeejdfooq540p14ka4d2tjt.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "surya.oktana.weatherApp.RunnerTests"
+              }
+            }
+          ]
         }
       }
     }
