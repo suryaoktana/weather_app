@@ -30,7 +30,7 @@ class WeatherHourlyForecasts extends StatelessWidget {
             ),
           ),
           Container(
-            height: 240,
+            height: 250,
             margin: const EdgeInsets.only(top: 4),
             child: ContainerWithFrostedGlass(
               childPadding: EdgeInsets.zero,

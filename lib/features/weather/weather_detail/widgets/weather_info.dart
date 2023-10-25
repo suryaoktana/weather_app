@@ -87,7 +87,15 @@ class WeatherInfo extends StatelessWidget {
           ),
           CustomText(
             formatDateTimeAsString(weather.dtTxt,
-                dateFormat: 'EEEE, MMMM dd, yyyy'),
+                dateFormat: 'EEEE'),
+            style: CustomTextStyle.lightTypographyBody1SemiBold,
+          ),
+          const SizedBox(
+            height: 2,
+          ),
+          CustomText(
+            formatDateTimeAsString(weather.dtTxt,
+                dateFormat: 'MMMM dd, yyyy, h a'),
             style: CustomTextStyle.lightTypographyBody1SemiBold,
           ),
           const SizedBox(

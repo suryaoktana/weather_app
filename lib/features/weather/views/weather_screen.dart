@@ -70,7 +70,13 @@ class _WeatherScreenState extends State<WeatherScreen>
                           current.weathers.state == ResponseState.error,
                       listener: (context, state) =>
                           showErrorPopUp(context, state.weathers.message),
-                    )
+                    ),
+                    BlocListener<WeatherBloc, WeatherState>(
+                      listenWhen: (_, current) =>
+                      current.isLocationServiceEnabledState.state == ResponseState.error,
+                      listener: (context, state) =>
+                          showErrorPopUp(context, state.isLocationServiceEnabledState.message),
+                    ),
                   ],
                   child: CustomScaffold(
                     body: TabBarView(

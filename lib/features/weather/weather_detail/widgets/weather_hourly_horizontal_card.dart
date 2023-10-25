@@ -50,22 +50,27 @@ class WeatherHourlyHorizontalCard extends StatelessWidget {
                     style: CustomTextStyle.body2SemiBold,
                   ),
                   const SizedBox(
-                    height: 4,
+                    height: 2,
                   ),
                   CustomText(
                     formatDateTimeToHourMinutes(weather.dtTxt),
                     style: CustomTextStyle.body1SemiBold,
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0, top: 2),
+                    padding: const EdgeInsets.only(top: 2),
                     child: getCachedNetworkImage(
                         imageUrl:
                             openWeatherImageBaseUrl(weather.weather[0].icon),
-                        height: 60,
-                        width: 60),
+                        height: 62,
+                        width: 62),
                   ),
                   CustomText(
-                    '${weather.main.temp.ceil()}\u00B0c',
+                    weather.weather[0].main,
+                    style: CustomTextStyle.body2SemiBold
+                        .copyWith(color: CustomColors.white.withOpacity(0.6)),
+                  ),
+                  CustomText(
+                    '${weather.main.temp.ceil()}\u00B0',
                     style: CustomTextStyle.h4,
                   ),
                 ],
