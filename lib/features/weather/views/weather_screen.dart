@@ -42,29 +42,29 @@ class _WeatherScreenState extends State<WeatherScreen>
 
   @override
   Widget build(BuildContext context) => BackgroundContainer(
-        child: BlocConsumer<AuthBloc, AuthState>(
-          listenWhen: (previous, current) =>
-              previous.signOutState.state != current.signOutState.state,
-          listener: (context, state) async {
-            if (state.signOutState.state == ResponseState.success) {
-              SignInScreen.openAndRemoveAllRoute(context);
-            } else if (state.signOutState.state == ResponseState.error) {
-              showErrorPopUp(context, state.signOutState.message);
-            }
-          },
-          buildWhen: (previous, current) =>
-              previous.signOutState != current.signOutState,
-          builder: (context, state) {
-            if (state.signOutState.state == ResponseState.loading) {
-              return const Center(
-                child: CustomLoading(),
-              );
-            } else {
-              return BlocProvider(
-                create: (BuildContext context) =>
-                    WeatherBloc(weatherRepository: WeatherRepository())
-                      ..add(const WeatherEvent.initiateLocationServices()),
-                child: MultiBlocListener(
+        child: BlocProvider(
+          create: (BuildContext context) =>
+              WeatherBloc(weatherRepository: WeatherRepository())
+                ..add(const WeatherEvent.initiateLocationServices()),
+          child: BlocConsumer<AuthBloc, AuthState>(
+            listenWhen: (previous, current) =>
+                previous.signOutState.state != current.signOutState.state,
+            listener: (context, state) async {
+              if (state.signOutState.state == ResponseState.success) {
+                SignInScreen.openAndRemoveAllRoute(context);
+              } else if (state.signOutState.state == ResponseState.error) {
+                showErrorPopUp(context, state.signOutState.message);
+              }
+            },
+            buildWhen: (previous, current) =>
+                previous.signOutState != current.signOutState,
+            builder: (context, state) {
+              if (state.signOutState.state == ResponseState.loading) {
+                return const Center(
+                  child: CustomLoading(),
+                );
+              } else {
+                return MultiBlocListener(
                   listeners: [
                     BlocListener<WeatherBloc, WeatherState>(
                       listenWhen: (previous, current) =>
@@ -95,10 +95,10 @@ class _WeatherScreenState extends State<WeatherScreen>
                       tabController: tabController,
                     ),
                   ),
-                ),
-              );
-            }
-          },
+                );
+              }
+            },
+          ),
         ),
       );
 }
