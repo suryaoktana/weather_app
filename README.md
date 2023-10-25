@@ -9,7 +9,7 @@
 - In case the Open Weather key is invalid, you could register an account yourself
   at https://openweathermap.org/ and replace api key inside root/core/const/weather_api_key.dart
 
-## How to run the App - ANDROID
+## How to run the App - Android
 
 - Make sure you are running the latest Android API(34) and Flutter SDK (3.13+)
 - Run "flutter pub get" on terminal to get all plugin needed in the pubspec.yaml
@@ -18,7 +18,7 @@
 - Make sure you already open or start an android emulator
 - Run "flutter run" to run the app
 
-## How to build the App - ANDROID
+## How to build the App - Android
 
 - Make sure you are running the latest Android (34) and Flutter SDK (3.13+)
 - Run "flutter pub get" on terminal to get all plugin needed in the pubspec.yaml
