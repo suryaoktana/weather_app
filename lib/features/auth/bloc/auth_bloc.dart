@@ -49,12 +49,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     emit(state.copyWith(signInState: BaseResponse.loading()));
     try {
       final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
-      final GoogleSignInAuthentication gAuth = await gUser!.authentication;
-      final credential = GoogleAuthProvider.credential(
-          accessToken: gAuth.accessToken, idToken: gAuth.idToken);
-      await _firebaseAuth.signInWithCredential(credential);
-      emit(state.copyWith(
-          signInState: BaseResponse.complete(), isAuthenticated: true));
+      if (gUser != null) {
+        final GoogleSignInAuthentication gAuth = await gUser.authentication;
+        final credential = GoogleAuthProvider.credential(
+            accessToken: gAuth.accessToken, idToken: gAuth.idToken);
+        await _firebaseAuth.signInWithCredential(credential);
+        emit(state.copyWith(
+            signInState: BaseResponse.complete(), isAuthenticated: true));
+      } else {
+        ///sign in cancelled by user will return to default state
+        emit(state.copyWith(signInState: const BaseResponse()));
+      }
     } on FirebaseAuthException catch (e) {
       emit(state.copyWith(
           signInState: BaseResponse.error(message: e.message ?? '')));
